@@ -46,11 +46,13 @@ READ_FROM: 'READ FROM';
 
 WRITE_TO: 'WRITE TO';
 
-INSERT_INTO: 'INSERT INTO';
+INTO_TABLE: 'INTO TABLE';
 
 USING_CONNECT_STRING: 'USING CONNECT STRING';
 
 FROM_FILE: 'FROM FILE';
+
+FROM_TABLE: 'FROM TABLE';
 
 EXECUTE: 'EXECUTE';
 
@@ -92,13 +94,15 @@ from_file: FROM_FILE s=quotedString;
 
 execute: EXECUTE s=quotedString;
 
-insert_into: INSERT_INTO s=quotedString;
+into_table: INTO_TABLE s=WORD;
 
 with_input_from: WITH_INPUT_FROM s=WORD;
 
-source_declaration: DECLARE w=WORD AS TYPE_DATA_SOURCE BEGIN (read_from | using_connect | from_file | execute | columns)* END;
+from_table: FROM_TABLE s=WORD;
 
-dest_declaration: DECLARE w=WORD AS TYPE_DATA_DESTINATION BEGIN (with_input_from | using_connect | write_to | execute | insert_into | columns)* END;
+source_declaration: DECLARE w=WORD AS TYPE_DATA_SOURCE BEGIN (read_from | using_connect | from_file | execute | from_table | columns)* END;
+
+dest_declaration: DECLARE w=WORD AS TYPE_DATA_DESTINATION BEGIN (with_input_from | using_connect | write_to | execute | into_table | columns)* END;
 
 aggregate_declaration: DECLARE w=WORD AS TYPE_AGGREGATE BEGIN (with_input_from)* END;
 

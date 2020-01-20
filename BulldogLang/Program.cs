@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using System;
+using System.Collections.Generic;
 
 namespace AntlrConsole2
 {
@@ -36,12 +37,14 @@ namespace AntlrConsole2
             var input =
                 "DECLARE junk AS SOURCE BEGIN\n" +
                 "   READ FROM SQLServer\n" +
+                "   FROM TABLE SimpleSource\n" +
                 "   COLUMNS [This, that, other1, other2]\n" +
                 "   USING CONNECT STRING \"Trusted_Connection=TRUE;Server=Lake;Database=Bulldog;\"\n" +
                 "END\n" +
                 "DECLARE fooey AS DESTINATION BEGIN\n" +
                 "   WITH INPUT FROM junk\n" +
                 "   COLUMNS [*] \n" +
+                "   INTO TABLE SimpleDest\n" +
                 "   WRITE TO SQLServer\n" +
                 "   USING CONNECT STRING \"Trusted_Connection=TRUE;Server=Lake;Database=Bulldog;\"\n" +
                 "END\n";
@@ -83,6 +86,16 @@ namespace AntlrConsole2
             }
             var visitor = new BulldogVisitor();
             visitor.Visit(tree);
+
+
+            // start executing! 
+            // call prepare on each item
+            Dictionary<string, DataComponent> dict = visitor.GetObjects();
+
+            foreach(DataComponent c in dict.Values)
+            {
+                c.Prepare();
+            }
         }
     }
 }

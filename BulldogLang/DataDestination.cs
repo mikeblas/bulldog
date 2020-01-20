@@ -14,6 +14,9 @@ namespace AntlrConsole2
         private string executeString;
         private string connectionString;
 
+        private string tableName;
+        private string fileName;
+
         public string ConnectionString { get => connectionString; set => connectionString = value; }
         public string ExecuteString { get => executeString; set => executeString = value; }
         public bool IsAllColumns { get => isAllColumns; set => isAllColumns = value; }

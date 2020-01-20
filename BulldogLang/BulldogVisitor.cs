@@ -10,14 +10,57 @@
         DataSource source = null;
         DataDestination dest = null;
 
+        private static string NormalizeQuotedString(bulldogParser.QuotedStringContext c)
+        {
+            // string beginning and ending quotes
+            string s = c.GetText();
+            if (s[0] == '"')
+                s = s.Substring(1);
+            if (s[s.Length - 1] == '"')
+                s = s.Substring(0, s.Length - 1);
+
+            // replace escaped quotes; replace \" with "
+            s = s.Replace("\\\"", "\"");
+
+            return s;
+        }
+
         public BulldogVisitor()
         {
+        }
+
+        public Dictionary<string, DataComponent> GetObjects()
+        {
+            return mapNamesToComponents;
         }
 
         public override string VisitAggregate_declaration([NotNull] bulldogParser.Aggregate_declarationContext context)
         {
             return base.VisitAggregate_declaration(context);
         }
+
+        public override string VisitFrom_table([NotNull] bulldogParser.From_tableContext context)
+        {
+            if (source as SQLServerDataSource != null)
+            {
+                SQLServerDataSource s = source as SQLServerDataSource;
+                s.TableName = context.s.Text.ToString();
+                Console.WriteLine($"   source from table {s.TableName}");
+            }
+            return base.VisitFrom_table(context);
+        }
+
+        public override string VisitInto_table([NotNull] bulldogParser.Into_tableContext context)
+        {
+            if (dest as SQLServerDataDestination != null)
+            {
+                SQLServerDataDestination d = dest as SQLServerDataDestination;
+                d.TableName = context.s.Text.ToString();
+                Console.WriteLine($"   dest into table {d.TableName}");
+            }
+            return base.VisitInto_table(context);
+        }
+
 
         public override string VisitColumns([NotNull] bulldogParser.ColumnsContext context)
         {
@@ -28,7 +71,7 @@
         {
             foreach (var x in context.column())
             {
-                Console.WriteLine($" column list entry: {x.GetText()}");
+                Console.WriteLine($"   column list entry: {x.GetText()}");
                 if (source != null)
                     source.AddColumn(x.GetText());
             }
@@ -142,7 +185,7 @@
 
             if (this.source == null)
             {
-                throw new Exception($"muts have READ FROM statement at ~~~~");
+                throw new Exception($"must have READ FROM statement at ~~~~");
             }
 
             // we now have a source object, so populate it
@@ -173,8 +216,15 @@
         public override string VisitUsing_connect([NotNull] bulldogParser.Using_connectContext context)
         {
             if (source != null)
-                source.ConnectionString = context.quotedString().GetText();
-            Console.WriteLine($"   Using Connect: {context.quotedString().GetText()}");
+            {
+                source.ConnectionString = NormalizeQuotedString(context.quotedString());
+                Console.WriteLine($"   Using Connect: {source.ConnectionString}");
+            }
+            else if (dest != null)
+            {
+                dest.ConnectionString = NormalizeQuotedString(context.quotedString());
+                Console.WriteLine($"   Using Connect: {dest.ConnectionString}");
+            }
             return base.VisitUsing_connect(context);
         }
 

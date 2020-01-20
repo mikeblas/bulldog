@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AntlrConsole2
 {
-    public class DataComponent
+    public abstract class DataComponent
     {
         private string name;
         public string Name { get => name; set => name = value; }
@@ -13,5 +13,8 @@ namespace AntlrConsole2
         {
             this.Name = name;
         }
+
+        abstract public bool Prepare();
     }
 }
+
