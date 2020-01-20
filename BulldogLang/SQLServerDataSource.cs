@@ -55,7 +55,6 @@ namespace AntlrConsole2
                     Console.WriteLine();
                 }
 
-
                 return true;
             }
             catch (SqlException ex)

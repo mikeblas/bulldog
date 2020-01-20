@@ -96,6 +96,9 @@ namespace AntlrConsole2
             {
                 c.Prepare();
             }
+
+            Dictionary<DataComponent, DataComponent> connections = visitor.GetConnections();
+
         }
     }
 }

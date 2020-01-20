@@ -6,7 +6,22 @@
 
     class BulldogVisitor : bulldogBaseVisitor<string>
     {
-        Dictionary<string, DataComponent> mapNamesToComponents = new Dictionary<string, DataComponent>(StringComparer.OrdinalIgnoreCase);
+        /// <summary>
+        /// our symbol table; maps a name to a specific DataComponent instance
+        /// </summary>
+        Dictionary<string, DataComponent> namesToComponents = new Dictionary<string, DataComponent>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// resolved list of input connnections; key is an object, value is the object from which the key takes input
+        /// </summary>
+        Dictionary<DataComponent, DataComponent> inputsToOutputs = new Dictionary<DataComponent, DataComponent>();
+
+        /// <summary>
+        /// unresolved list of input connections; key is the name of an object, value is the name
+        /// of the object from which the key object takes input
+        /// </summary>
+        Dictionary<string, string> inputsToOutputsByName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
         DataSource source = null;
         DataDestination dest = null;
 
@@ -31,8 +46,38 @@
 
         public Dictionary<string, DataComponent> GetObjects()
         {
-            return mapNamesToComponents;
+            return namesToComponents;
         }
+
+        public Dictionary<DataComponent, DataComponent> GetConnections()
+        {
+            return inputsToOutputs;
+        }
+
+        private void BuildConnections()
+        {
+            foreach(KeyValuePair<string, string> entry in inputsToOutputsByName)
+            {
+                if (!namesToComponents.ContainsKey(entry.Key))
+                {
+                    // this might be hard to do ...
+                    Console.Out.WriteLine($"component {entry.Key} does not exist");
+                }
+                else if (!namesToComponents.ContainsKey(entry.Value))
+                {
+                    // this is just the case of declaring WITH INPUT FROM <name>,
+                    // when no component <name> exists
+                    Console.Out.WriteLine($"component {entry.Key} takes input from {entry.Value}, but {entry.Value} does ont exist");
+                }
+                else
+                {
+                    DataComponent d1 = namesToComponents[entry.Key];
+                    DataComponent d2 = namesToComponents[entry.Value];
+                    d1.InputComponent = d2;
+                }
+            }
+        }
+
 
         public override string VisitAggregate_declaration([NotNull] bulldogParser.Aggregate_declarationContext context)
         {
@@ -119,7 +164,7 @@
             }
 
             // we now have a source object, so populate it
-            this.mapNamesToComponents.Add(context.w.Text.ToString(), dest);
+            this.namesToComponents.Add(context.w.Text.ToString(), dest);
 
             string s = base.VisitDest_declaration(context);
 
@@ -139,6 +184,8 @@
                     System.Console.WriteLine(v);
                 }
             }
+
+            BuildConnections();
             return null;
        }
 
@@ -189,7 +236,7 @@
             }
 
             // we now have a source object, so populate it
-            this.mapNamesToComponents.Add(context.w.Text.ToString(), source);
+            this.namesToComponents.Add(context.w.Text.ToString(), source);
 
             string s = base.VisitSource_declaration(context);
 
@@ -231,6 +278,14 @@
         public override string VisitWith_input_from([NotNull] bulldogParser.With_input_fromContext context)
         {
             Console.WriteLine($"   input from: {context.s.Text.ToString()}");
+            if (this.source != null)
+            {
+                inputsToOutputsByName.Add(this.source.Name, context.s.Text.ToString());
+            }
+            else if (this.dest != null)
+            {
+                inputsToOutputsByName.Add(this.dest.Name, context.s.Text.ToString());
+            }
             return base.VisitWith_input_from(context);
         }
 
