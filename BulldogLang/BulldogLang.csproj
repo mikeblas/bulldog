@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>AntlrConsole2</RootNamespace>
+    <RootNamespace>Bulldog</RootNamespace>
   </PropertyGroup>
   
   <ItemGroup>

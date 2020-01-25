@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AntlrConsole2
+namespace Bulldog
 {
 
 
@@ -39,14 +39,14 @@ namespace AntlrConsole2
                 "   READ FROM SQLServer\n" +
                 "   FROM TABLE SimpleSource\n" +
                 "   COLUMNS [This, that, other1, other2]\n" +
-                "   USING CONNECT STRING \"Trusted_Connection=TRUE;Server=Lake;Database=Bulldog;\"\n" +
+                "   USING CONNECT STRING \"Trusted_Connection=TRUE;Server=localhost;Database=Bulldog;\"\n" +
                 "END\n" +
                 "DECLARE fooey AS DESTINATION BEGIN\n" +
                 "   WITH INPUT FROM junk\n" +
                 "   COLUMNS [*] \n" +
                 "   INTO TABLE SimpleDest\n" +
                 "   WRITE TO SQLServer\n" +
-                "   USING CONNECT STRING \"Trusted_Connection=TRUE;Server=Lake;Database=Bulldog;\"\n" +
+                "   USING CONNECT STRING \"Trusted_Connection=TRUE;Server=localhost;Database=Bulldog;\"\n" +
                 "END\n";
             var str = new AntlrInputStream(input);
             Console.WriteLine(str.ToString());

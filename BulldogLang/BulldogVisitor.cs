@@ -1,4 +1,4 @@
-﻿namespace AntlrConsole2
+﻿namespace Bulldog
 {
     using System;
     using System.Collections.Generic;

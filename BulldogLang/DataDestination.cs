@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AntlrConsole2
+namespace Bulldog
 {
-
-
     public abstract class DataDestination : DataComponent
     {
         private bool isAllColumns;

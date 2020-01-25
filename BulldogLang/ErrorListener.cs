@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Antlr4.Runtime;
 
-namespace AntlrConsole2
+namespace Bulldog
 {
     public class ErrorListener<S> : ConsoleErrorListener<S>
     {

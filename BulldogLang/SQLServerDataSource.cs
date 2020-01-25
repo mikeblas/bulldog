@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
-namespace AntlrConsole2
+namespace Bulldog
 {
     class SQLServerDataSource : DataSource
     {
@@ -43,17 +43,7 @@ namespace AntlrConsole2
 
                 DataTable schemaTable = this.reader.GetSchemaTable();
 
-                //For each field in the table...
-                foreach (DataRow myField in schemaTable.Rows)
-                {
-                    //For each property of the field...
-                    foreach (DataColumn myProperty in schemaTable.Columns)
-                    {
-                        //Display the field name and value.
-                        Console.WriteLine($"{myProperty.ColumnName} = {myField[myProperty]}");
-                    }
-                    Console.WriteLine();
-                }
+                ColumnDescriptions listDescriptions = new ColumnDescriptions(schemaTable);
 
                 return true;
             }

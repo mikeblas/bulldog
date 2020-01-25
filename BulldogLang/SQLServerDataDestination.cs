@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Text;
 
 
-namespace AntlrConsole2
+namespace Bulldog
 {
     public class SQLServerDataDestination : DataDestination
     {
