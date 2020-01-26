@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bulldog
 {
-    class ColumnDescription
+    public class ColumnDescription
     {
         int columnOrdinal;
         string columnName;

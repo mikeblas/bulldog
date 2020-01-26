@@ -16,10 +16,13 @@ namespace Bulldog
             foreach (DataRow myField in dt.Rows)
             {
                 ColumnDescription cd = new ColumnDescription(myField);
-
                 ordinalMap.Add(cd.ColumnOrdinal, cd);
             }
         }
+
+        public IEnumerable<ColumnDescription> Columns { get => ordinalMap.Values;  }
+        
+        public int ColumnCount { get => ordinalMap.Count; }
     }
 }
 

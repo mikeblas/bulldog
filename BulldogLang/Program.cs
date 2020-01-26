@@ -33,7 +33,6 @@ namespace Bulldog
 
         void Run()
         {
-            //            var input = "DECLARE";
             var input =
                 "DECLARE junk AS SOURCE BEGIN\n" +
                 "   READ FROM SQLServer\n" +
@@ -98,6 +97,13 @@ namespace Bulldog
             }
 
             Dictionary<DataComponent, DataComponent> connections = visitor.GetConnections();
+
+            List<DataComponent> tops = visitor.GetTopComponents();
+            foreach(DataComponent c in tops)
+            {
+                Console.WriteLine($"{c.Name}");
+                c.ReadData();
+            }
 
         }
     }

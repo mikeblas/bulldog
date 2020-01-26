@@ -16,6 +16,8 @@ namespace Bulldog
             this.Name = name;
         }
 
+        public abstract RowBatch ReadData();
+
         abstract public bool Prepare();
     }
 }

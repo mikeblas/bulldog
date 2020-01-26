@@ -54,6 +54,26 @@
             return inputsToOutputs;
         }
 
+        public List<DataComponent> GetTopComponents()
+        {
+            // all components from the existing list
+            Dictionary<string, DataComponent> allComponents = new Dictionary<string, DataComponent>(this.namesToComponents, StringComparer.OrdinalIgnoreCase);
+
+            // get each of the components; if it has no input, add it to the list
+            foreach (DataComponent c in namesToComponents.Values)
+            {
+                // if this component has an input, remove it from our list
+                if (c.InputComponent == null)
+                {
+                    allComponents.Remove(c.Name);
+                }
+            }
+
+            // make a list of the remaining ones
+            List<DataComponent> list = new List<DataComponent>(allComponents.Values);
+            return list;
+        }
+
         private void BuildConnections()
         {
             foreach(KeyValuePair<string, string> entry in inputsToOutputsByName)

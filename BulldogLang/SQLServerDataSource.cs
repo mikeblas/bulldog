@@ -14,6 +14,7 @@ namespace Bulldog
         private string actualQuery;
         private SqlDataReader reader;
         private SqlCommand cmd;
+        private ColumnDescriptions descriptions;
 
         public SQLServerDataSource(string name) : base(name)
         {
@@ -43,7 +44,7 @@ namespace Bulldog
 
                 DataTable schemaTable = this.reader.GetSchemaTable();
 
-                ColumnDescriptions listDescriptions = new ColumnDescriptions(schemaTable);
+                descriptions = new ColumnDescriptions(schemaTable);
 
                 return true;
             }
@@ -54,5 +55,26 @@ namespace Bulldog
             }
         }
 
+        public override RowBatch ReadData()
+        {
+            RowBatch rb = new RowBatch(descriptions);
+
+            if (reader.IsClosed)
+            {
+                rb.IsEndOfRows = true;
+                return rb;
+            }
+
+            bool readResult;
+            while ((readResult = reader.Read()) == true && rb.Count < 250)
+            {
+                rb.AddRow(reader);
+            }
+
+            if (readResult == false)
+                reader.Close();
+
+            return rb;
+        }
     }
 }
