@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using Antlr4.Runtime.Misc;
 
-    class BulldogVisitor : bulldogBaseVisitor<string>
+    public class BulldogVisitor : bulldogBaseVisitor<string>
     {
         /// <summary>
         /// our symbol table; maps a name to a specific DataComponent instance
@@ -184,6 +184,10 @@
             }
 
             // we now have a source object, so populate it
+            if (this.namesToComponents.ContainsKey(context.w.Text.ToString()))
+            {
+                throw new Exception($"object named {context.w.Text.ToString()} already exists");
+            }
             this.namesToComponents.Add(context.w.Text.ToString(), dest);
 
             string s = base.VisitDest_declaration(context);

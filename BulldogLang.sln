@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulldogLang", "BulldogLang\BulldogLang.csproj", "{4D606E7A-9342-446B-8D17-56870D2E6A12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulldogUnitTests", "BulldogUnitTests\BulldogUnitTests.csproj", "{944B5178-2158-4C2A-83EB-19963411F0FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4D606E7A-9342-446B-8D17-56870D2E6A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D606E7A-9342-446B-8D17-56870D2E6A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D606E7A-9342-446B-8D17-56870D2E6A12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{944B5178-2158-4C2A-83EB-19963411F0FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{944B5178-2158-4C2A-83EB-19963411F0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{944B5178-2158-4C2A-83EB-19963411F0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{944B5178-2158-4C2A-83EB-19963411F0FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
