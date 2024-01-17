@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Bulldog</RootNamespace>
   </PropertyGroup>
   
@@ -10,10 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.7.2" />
-    <PackageReference Include="Antlr4BuildTasks" Version="1.0.9" />
-    <PackageReference Include="System.CodeDom" Version="4.5.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
+    <PackageReference Include="Antlr4BuildTasks" Version="12.8.0" />
+    <PackageReference Include="System.CodeDom" Version="8.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(JAVA_HOME)'==''">
